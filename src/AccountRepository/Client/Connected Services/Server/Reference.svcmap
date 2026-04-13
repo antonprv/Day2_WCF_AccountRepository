@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="6ff582f7-61d0-49b4-8f4e-d7b0e9980a13" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="e0aa52d5-14a7-429f-bd5b-b625343b2c16" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,10 +19,15 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:65083/DatabaseService.svc?singleWsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:65083/DatabaseService.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="DatabaseService.wsdl" MetadataType="Wsdl" ID="d175bf6b-3c20-4788-a34b-2274c98bf57e" SourceId="1" SourceUrl="http://localhost:65083/DatabaseService.svc?singleWsdl" />
+    <MetadataFile FileName="DatabaseService.xsd" MetadataType="Schema" ID="2f0b19fa-f1c5-44af-9c75-67f07c0dee3a" SourceId="1" SourceUrl="http://localhost:65083/DatabaseService.svc?xsd=xsd0" />
+    <MetadataFile FileName="DatabaseService1.xsd" MetadataType="Schema" ID="1e887283-7df0-456e-a611-733668b4dbba" SourceId="1" SourceUrl="http://localhost:65083/DatabaseService.svc?xsd=xsd1" />
+    <MetadataFile FileName="DatabaseService2.xsd" MetadataType="Schema" ID="5defe21e-e5dc-42dd-9226-cf325c1293d2" SourceId="1" SourceUrl="http://localhost:65083/DatabaseService.svc?xsd=xsd2" />
+    <MetadataFile FileName="DatabaseService3.xsd" MetadataType="Schema" ID="55361089-2d51-4094-a660-ad78a4648c91" SourceId="1" SourceUrl="http://localhost:65083/DatabaseService.svc?xsd=xsd3" />
+    <MetadataFile FileName="DatabaseService.wsdl" MetadataType="Wsdl" ID="a122a49b-dda1-4415-bd9e-495610534ec2" SourceId="1" SourceUrl="http://localhost:65083/DatabaseService.svc?wsdl" />
+    <MetadataFile FileName="DatabaseService1.wsdl" MetadataType="Wsdl" ID="bd50d914-ffc4-41e0-9829-e137a916c626" SourceId="1" SourceUrl="http://localhost:65083/DatabaseService.svc?wsdl=wsdl0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

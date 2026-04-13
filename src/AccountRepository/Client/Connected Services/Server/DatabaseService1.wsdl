@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://account.repository/server" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" targetNamespace="http://account.repository/server" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://account.repository/server/Imports">
+      <xsd:import schemaLocation="http://localhost:65083/DatabaseService.svc?xsd=xsd0" namespace="http://account.repository/server" />
+      <xsd:import schemaLocation="http://localhost:65083/DatabaseService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:65083/DatabaseService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Server.Models" />
+      <xsd:import schemaLocation="http://localhost:65083/DatabaseService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Server.Faults" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IDatabaseService_Add_InputMessage">
+    <wsdl:part name="parameters" element="tns:Add" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_Add_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_GetAll_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAll" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_GetAll_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_GetAll_NotFoundFaultFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/Server.Faults" name="detail" element="q1:NotFoundFault" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_GetPage_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPage" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_GetPage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_GetPage_NotFoundFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/Server.Faults" name="detail" element="q2:NotFoundFault" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_GetById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetById" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_GetById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_GetById_NotFoundFaultFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/Server.Faults" name="detail" element="q3:NotFoundFault" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_Search_InputMessage">
+    <wsdl:part name="parameters" element="tns:Search" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_Search_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_Search_NotFoundFaultFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/Server.Faults" name="detail" element="q4:NotFoundFault" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_Edit_InputMessage">
+    <wsdl:part name="parameters" element="tns:Edit" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_Edit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_Edit_WrongInputFaultFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/Server.Faults" name="detail" element="q5:WrongInputFault" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_Delete_InputMessage">
+    <wsdl:part name="parameters" element="tns:Delete" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_Delete_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IDatabaseService">
+    <wsdl:operation name="Add">
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/Add" message="tns:IDatabaseService_Add_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/AddResponse" message="tns:IDatabaseService_Add_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAll">
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/GetAll" message="tns:IDatabaseService_GetAll_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/GetAllResponse" message="tns:IDatabaseService_GetAll_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://account.repository/server/IDatabaseService/GetAllNotFoundFaultFault" name="NotFoundFaultFault" message="tns:IDatabaseService_GetAll_NotFoundFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPage">
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/GetPage" message="tns:IDatabaseService_GetPage_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/GetPageResponse" message="tns:IDatabaseService_GetPage_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://account.repository/server/IDatabaseService/GetPageNotFoundFaultFault" name="NotFoundFaultFault" message="tns:IDatabaseService_GetPage_NotFoundFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetById">
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/GetById" message="tns:IDatabaseService_GetById_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/GetByIdResponse" message="tns:IDatabaseService_GetById_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://account.repository/server/IDatabaseService/GetByIdNotFoundFaultFault" name="NotFoundFaultFault" message="tns:IDatabaseService_GetById_NotFoundFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Search">
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/Search" message="tns:IDatabaseService_Search_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/SearchResponse" message="tns:IDatabaseService_Search_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://account.repository/server/IDatabaseService/SearchNotFoundFaultFault" name="NotFoundFaultFault" message="tns:IDatabaseService_Search_NotFoundFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Edit">
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/Edit" message="tns:IDatabaseService_Edit_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/EditResponse" message="tns:IDatabaseService_Edit_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://account.repository/server/IDatabaseService/EditWrongInputFaultFault" name="WrongInputFaultFault" message="tns:IDatabaseService_Edit_WrongInputFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/Delete" message="tns:IDatabaseService_Delete_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/DeleteResponse" message="tns:IDatabaseService_Delete_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

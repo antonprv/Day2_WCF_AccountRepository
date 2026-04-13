@@ -36,6 +36,7 @@ namespace Client.Forms
       this.deleteButton = new System.Windows.Forms.ToolStripButton();
       this.toolStripSep = new System.Windows.Forms.ToolStripSeparator();
       this.searchBox = new System.Windows.Forms.ToolStripTextBox();
+      this.quitSearchButton = new System.Windows.Forms.ToolStripButton();
       this.dataGridView = new System.Windows.Forms.DataGridView();
       this.statusStrip = new System.Windows.Forms.StatusStrip();
       this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -57,7 +58,8 @@ namespace Client.Forms
             this.editButton,
             this.deleteButton,
             this.toolStripSep,
-            this.searchBox});
+            this.searchBox,
+            this.quitSearchButton});
       this.toolStrip.Location = new System.Drawing.Point(0, 0);
       this.toolStrip.Name = "toolStrip";
       this.toolStrip.Size = new System.Drawing.Size(900, 34);
@@ -103,16 +105,28 @@ namespace Client.Forms
       this.searchBox.Click += new System.EventHandler(this.SearchBox_Click);
       this.searchBox.TextChanged += new System.EventHandler(this.SearchBox_TextChanged);
       // 
+      // quitSearchButton
+      // 
+      this.quitSearchButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+      this.quitSearchButton.AutoSize = false;
+      this.quitSearchButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+      this.quitSearchButton.Enabled = false;
+      this.quitSearchButton.Font = new System.Drawing.Font("Segoe UI", 9F);
+      this.quitSearchButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.quitSearchButton.Name = "quitSearchButton";
+      this.quitSearchButton.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
+      this.quitSearchButton.Size = new System.Drawing.Size(110, 29);
+      this.quitSearchButton.Text = "Отмена";
+      this.quitSearchButton.Click += new System.EventHandler(this.QuitSearchButton_Click);
+      // 
       // dataGridView
       // 
       this.dataGridView.AllowUserToAddRows = false;
       this.dataGridView.AllowUserToDeleteRows = false;
       this.dataGridView.AllowUserToResizeColumns = false;
       this.dataGridView.AllowUserToResizeRows = false;
-      this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
       this.dataGridView.ColumnHeadersHeight = 34;
+      this.dataGridView.Dock = System.Windows.Forms.DockStyle.Top;
       this.dataGridView.Location = new System.Drawing.Point(0, 34);
       this.dataGridView.Name = "dataGridView";
       this.dataGridView.ReadOnly = true;
@@ -229,6 +243,7 @@ namespace Client.Forms
     private System.Windows.Forms.ToolStrip paginationToolStrip;
     private System.Windows.Forms.ToolStripButton paginationBackButton;
     private System.Windows.Forms.ToolStripButton paginationForwardButton;
+    private System.Windows.Forms.ToolStripButton quitSearchButton;
   }
 }
 

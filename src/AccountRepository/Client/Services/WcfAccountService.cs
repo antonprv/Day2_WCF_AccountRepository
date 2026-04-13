@@ -33,7 +33,7 @@ namespace Client.Services
     public List<Models.User> GetPage(int pageIndex, int itemsInPage) =>
       _dbService.GetPage(pageIndex, itemsInPage).Convert();
 
-    public List<Models.User> Search(Models.SearchQuery query) =>
-      _dbService.Search(query.Convert()).Convert();
+    public List<Models.User> Search(Models.SearchQuery query, int pageIndex) =>
+      _dbService.Search(query.Convert(), pageIndex).Convert();
   }
 }

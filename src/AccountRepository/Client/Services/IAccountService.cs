@@ -15,7 +15,7 @@ namespace Client.Services
 
     Models.User GetById(int id);
 
-    List<Models.User> Search(Models.SearchQuery query);
+    List<Models.User> Search(Models.SearchQuery query, int pageIndex);
 
     bool Edit(Models.User user);
 

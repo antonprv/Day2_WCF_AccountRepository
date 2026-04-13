@@ -136,7 +136,7 @@ namespace Server.Repository
 
     #region Search
 
-    public List<Models.User> Search(Models.SearchQuery query)
+    public List<Models.User> Search(Models.SearchQuery query, int pageIndex)
     {
       var ftsQuery = Validation.SearchQueryParser.ParseFts(query.RawInput);
       if (ftsQuery == null)
@@ -149,7 +149,7 @@ namespace Server.Repository
         JOIN  {_ftsTable} f ON f.rowid = p.id
         WHERE {_ftsTable} MATCH @ftsQuery
         ORDER BY bm25({_ftsTable})
-        LIMIT @limit";
+        LIMIT @limit OFFSET @offset";
 
       var result = new List<Models.User>();
 
@@ -160,6 +160,7 @@ namespace Server.Repository
         {
           cmd.Parameters.AddWithValue("@ftsQuery", ftsQuery);
           cmd.Parameters.AddWithValue("@limit", query.Limit);
+          cmd.Parameters.AddWithValue("@offset", pageIndex * query.Limit);
 
           using (var reader = cmd.ExecuteReader())
             while (reader.Read())

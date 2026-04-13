@@ -53,26 +53,6 @@ namespace Client.Models
       BirthDate = birthDate;
     }
 
-    public User(
-      string firstName,
-      string firstNameRu,
-      string lastName,
-      string lastNameRu,
-      string email,
-      string phone,
-      DateTime birthDate
-      )
-    {
-      Id = 0;
-      FirstName = firstName;
-      FirstNameRu = firstNameRu;
-      LastName = lastName;
-      LastNameRu = lastNameRu;
-      Email = email;
-      Phone = phone;
-      BirthDate = birthDate;
-    }
-
     public void Clear() => InitProperties();
 
     public bool IsEmpty() =>

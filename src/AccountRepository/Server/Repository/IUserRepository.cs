@@ -18,7 +18,7 @@ namespace Server.Repository
     List<Models.User> GetAll();
     List<Models.User> GetPage(int pageIndex, int itemsInPage);
     Models.User GetById(int id);
-    List<Models.User> Search(Models.SearchQuery query);
+    List<Models.User> Search(Models.SearchQuery query, int pageIndex);
 
     #endregion
 

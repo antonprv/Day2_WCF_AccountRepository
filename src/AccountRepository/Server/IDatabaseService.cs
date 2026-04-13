@@ -33,7 +33,7 @@ namespace Server
 
     [OperationContract]
     [FaultContract(typeof(Faults.NotFoundFault))]
-    List<Models.User> Search(Models.SearchQuery query);
+    List<Models.User> Search(Models.SearchQuery query, int pageIndex);
 
     #endregion
 

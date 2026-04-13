@@ -36,13 +36,19 @@ namespace Client.Forms
     private ContextMenuStrip _contextMenu;
     private readonly string _defaultSearchBoxText;
 
+    private bool _wasChanged;
+    private bool _searchMode;
+    private string _currentSearchQuery;
+
+    private Color _defaultCancelBackColor;
+    private Color _defaultCancelForeColor;
+
     #endregion
 
     #region Pagination
 
     private int _currentPage = 0;
-    private bool _wasChanged;
-    private const int PageSize = 10;
+    private const int PageSize = 18;
 
     #endregion
 
@@ -59,6 +65,13 @@ namespace Client.Forms
 
       RefreshGrid();
       SetGridContextMenus();
+      SetDefaultCancelColor();
+    }
+
+    private void SetDefaultCancelColor()
+    {
+      _defaultCancelBackColor = quitSearchButton.BackColor;
+      _defaultCancelForeColor = quitSearchButton.ForeColor;
     }
 
     #region Grid Context Menus
@@ -155,14 +168,14 @@ namespace Client.Forms
 
       try
       {
-        var query = searchBox.Text.ToLower();
+        _currentSearchQuery = searchBox.Text.ToLower();
 
-        var filtered =
-          _accountService
-          .Search(new Models.SearchQuery(query, PageSize));
+        _searchMode = true;
+        SwapCancelColor();
 
-        dataGridView.DataSource = new BindingList<Models.User>(filtered);
-        statusLabel.Text = $"Найдено: {filtered.Count} из {_users.Count}";
+        RefreshGrid();
+
+        statusLabel.Text = $"Найдено: {_users.Count}";
 
         _wasChanged = false;
       }
@@ -173,6 +186,22 @@ namespace Client.Forms
           fault.Detail.Operation,
           fault.Reason.ToString()
           );
+      }
+    }
+
+    private void SwapCancelColor()
+    {
+      if (_searchMode)
+      {
+        quitSearchButton.Enabled = true;
+        quitSearchButton.BackColor = Color.Red;
+        quitSearchButton.ForeColor = Color.White;
+      }
+      else
+      {
+        quitSearchButton.Enabled = false;
+        quitSearchButton.BackColor = _defaultCancelBackColor;
+        quitSearchButton.ForeColor = _defaultCancelForeColor;
       }
     }
 
@@ -191,7 +220,7 @@ namespace Client.Forms
           {
             if (form is IUserProvider provider)
             {
-              _accountService.Add(provider.User);
+              _accountService.Edit(provider.User);
               RefreshGrid();
             }
           }
@@ -279,12 +308,7 @@ namespace Client.Forms
           .Distinct();
 
       foreach (var row in rows)
-      {
-        if (row.DataBoundItem is Models.User user)
-        {
-          _selectedUsers.Add(user);
-        }
-      }
+        _selectedUsers.Add(_users[row.Index]);
     }
 
     private bool IsSelectionValid() =>
@@ -294,20 +318,32 @@ namespace Client.Forms
     {
       dataGridView.SelectionChanged -= DataGridView_SelectionChanged;
 
-      // Загружаем страницу через сервис
-      var page = _accountService.GetPage(_currentPage, PageSize);
+      var page = new List<Models.User>();
+      var query = new Models.SearchQuery(_currentSearchQuery, PageSize);
 
-      _users.Clear();
-      _users.AddRange(page);
+      try
+      {
+        if (_searchMode)
+          page = _accountService.Search(query, _currentPage);
+        else
+          page = _accountService.GetPage(_currentPage, PageSize);
 
-      dataGridView.DataSource = new BindingList<Models.User>(_users);
-      FormatGrid();
+        _users.Clear();
+        _users.AddRange(page);
 
-      dataGridView.SelectionChanged += DataGridView_SelectionChanged;
+        dataGridView.DataSource = new BindingList<Models.User>(_users);
+        FormatGrid();
 
-      statusLabel.Text = $"Страница {_currentPage + 1} — записей: {_users.Count}";
+        dataGridView.SelectionChanged += DataGridView_SelectionChanged;
 
-      UpdatePaginationButtons();
+        statusLabel.Text = $"Страница {_currentPage + 1} — записей: {_users.Count}";
+
+        UpdatePaginationButtons();
+      }
+      catch (FaultException)
+      {
+        UpdatePaginationButtons(interactable: false);
+      }
     }
 
     private void FormatGrid()
@@ -346,19 +382,18 @@ namespace Client.Forms
       return value.ToString();
     }
 
-    private void UpdatePaginationButtons()
+    private void UpdatePaginationButtons(bool interactable = true)
     {
-      // Кнопка "назад" — неактивна на первой странице
       bool canGoBack = _currentPage > 0;
-      paginationBackButton.Enabled = canGoBack;
-      paginationBackButton.BackColor = canGoBack ? SystemColors.Control : Color.LightGray;
+      paginationBackButton.Enabled = canGoBack && interactable;
+      paginationBackButton.BackColor = canGoBack && interactable
+        ? SystemColors.Control : Color.LightGray;
 
-      // Кнопка "далее" — неактивна если записей меньше чем PageSize
       bool canGoNext = _users.Count == PageSize;
-      paginationForwardButton.Enabled = canGoNext;
-      paginationForwardButton.BackColor = canGoNext ? SystemColors.Control : Color.LightGray;
+      paginationForwardButton.Enabled = canGoNext && interactable;
+      paginationForwardButton.BackColor = canGoNext && interactable
+        ? SystemColors.Control : Color.LightGray;
 
-      // Панель с кнопками видна только если есть куда листать
       paginationToolStrip.Visible = canGoBack || canGoNext || _currentPage > 0;
     }
 
@@ -422,5 +457,12 @@ namespace Client.Forms
     }
 
     #endregion
+
+    private void QuitSearchButton_Click(object sender, EventArgs e)
+    {
+      _searchMode = false;
+      SwapCancelColor();
+      RefreshGrid();
+    }
   }
 }

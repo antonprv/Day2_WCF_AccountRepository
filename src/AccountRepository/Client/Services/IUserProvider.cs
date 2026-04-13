@@ -9,8 +9,6 @@ namespace Client.Services
   {
     Models.User User { get; }
 
-    DialogResult ShowDialog();
-
     void GetUserForEditing(Models.User user);
   }
 }

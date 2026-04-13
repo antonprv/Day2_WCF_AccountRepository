@@ -402,10 +402,10 @@ namespace Client.Server {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/Search", ReplyAction="http://account.repository/server/IDatabaseService/SearchResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.Server.NotFoundFault), Action="http://account.repository/server/IDatabaseService/SearchNotFoundFaultFault", Name="NotFoundFault", Namespace="http://schemas.datacontract.org/2004/07/Server.Faults")]
-        Client.Server.User[] Search(Client.Server.SearchQuery query);
+        Client.Server.User[] Search(Client.Server.SearchQuery query, int pageIndex);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/Search", ReplyAction="http://account.repository/server/IDatabaseService/SearchResponse")]
-        System.Threading.Tasks.Task<Client.Server.User[]> SearchAsync(Client.Server.SearchQuery query);
+        System.Threading.Tasks.Task<Client.Server.User[]> SearchAsync(Client.Server.SearchQuery query, int pageIndex);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/Edit", ReplyAction="http://account.repository/server/IDatabaseService/EditResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.Server.WrongInputFault), Action="http://account.repository/server/IDatabaseService/EditWrongInputFaultFault", Name="WrongInputFault", Namespace="http://schemas.datacontract.org/2004/07/Server.Faults")]
@@ -480,12 +480,12 @@ namespace Client.Server {
             return base.Channel.GetByIdAsync(id);
         }
         
-        public Client.Server.User[] Search(Client.Server.SearchQuery query) {
-            return base.Channel.Search(query);
+        public Client.Server.User[] Search(Client.Server.SearchQuery query, int pageIndex) {
+            return base.Channel.Search(query, pageIndex);
         }
         
-        public System.Threading.Tasks.Task<Client.Server.User[]> SearchAsync(Client.Server.SearchQuery query) {
-            return base.Channel.SearchAsync(query);
+        public System.Threading.Tasks.Task<Client.Server.User[]> SearchAsync(Client.Server.SearchQuery query, int pageIndex) {
+            return base.Channel.SearchAsync(query, pageIndex);
         }
         
         public bool Edit(Client.Server.User user) {

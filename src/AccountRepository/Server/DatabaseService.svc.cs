@@ -29,7 +29,6 @@ namespace Server
       if (!validationResult.IsValid)
         ThrowWrongInput(
           nameof(Edit),
-          user,
           FaultMessages.EditFault(user),
           ValidationMessages.Get(validationResult.Code)
           );
@@ -76,9 +75,9 @@ namespace Server
       return result;
     }
 
-    public List<User> Search(SearchQuery query)
+    public List<User> Search(SearchQuery query, int pageIndex)
     {
-      var result = _repository.Search(query);
+      var result = _repository.Search(query, pageIndex);
 
       if (result == null)
         ThrowNotFound(
@@ -91,7 +90,7 @@ namespace Server
 
     #region Helpers
 
-    private static void ThrowWrongInput(string method, User user, string message, string details)
+    private static void ThrowWrongInput(string method, string message, string details)
     {
       var fault = new WrongInputFault(method, message, details);
       var reason = fault.GetReason();

@@ -19,7 +19,7 @@ namespace Client.Forms
     #endregion
 
     private Models.User _userResult;
-
+    private int _id;
     private readonly Dictionary<string, ValidationCode> _fieldErrors;
 
     private delegate ValidationResult ValidatorDelegate(string input);
@@ -37,6 +37,8 @@ namespace Client.Forms
     {
       if (user == null)
         throw new ArgumentNullException("user");
+
+      _id = user.Id;
 
       firstNameBox.Text = user.FirstName;
       firstNameBoxRu.Text = user.FirstNameRu;
@@ -63,6 +65,7 @@ namespace Client.Forms
         return;
 
       _userResult = new Models.User(
+          id: _id,
           firstName: firstNameBox.Text,
           firstNameRu: firstNameBoxRu.Text,
           lastName: lastNameBox.Text,
