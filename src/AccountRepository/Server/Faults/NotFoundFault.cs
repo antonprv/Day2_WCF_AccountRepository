@@ -22,10 +22,10 @@ namespace Server.Faults
     private const string _reason = "Not found";
     private const string _reasonRu = "Данные не найдены";
 
-    [DataMember]
+    [DataMember(Order = 0)]
     public string Message { get; set; }
 
-    [DataMember]
+    [DataMember(Order = 1)]
     public string Operation { get; set; }
 
     public NotFoundFault(string operation, string message)

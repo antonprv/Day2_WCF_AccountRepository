@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://kovior.com/services" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="DatabaseService" targetNamespace="http://kovior.com/services" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://account.repository/server" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="DatabaseService" targetNamespace="http://account.repository/server" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
-    <xs:schema elementFormDefault="qualified" targetNamespace="http://kovior.com/services" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://account.repository/server" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import namespace="http://schemas.datacontract.org/2004/07/Server.Models" />
       <xs:element name="Add">
         <xs:complexType>
@@ -145,14 +145,7 @@
     <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Server.Models" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Server.Models" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:complexType name="User">
         <xs:sequence>
-          <xs:element minOccurs="0" name="BirthDate" type="xs:dateTime">
-            <xs:annotation>
-              <xs:appinfo>
-                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string">
+          <xs:element minOccurs="0" name="Id" type="xs:int">
             <xs:annotation>
               <xs:appinfo>
                 <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
@@ -173,13 +166,6 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element minOccurs="0" name="Id" type="xs:int">
-            <xs:annotation>
-              <xs:appinfo>
-                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
           <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string">
             <xs:annotation>
               <xs:appinfo>
@@ -194,7 +180,21 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
+          <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element minOccurs="0" name="Phone" nillable="true" type="xs:string">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="BirthDate" type="xs:dateTime">
             <xs:annotation>
               <xs:appinfo>
                 <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
@@ -212,11 +212,28 @@
       <xs:element name="ArrayOfUser" nillable="true" type="tns:ArrayOfUser" />
       <xs:complexType name="SearchQuery">
         <xs:sequence>
-          <xs:element minOccurs="0" name="Limit" type="xs:int" />
           <xs:element minOccurs="0" name="RawInput" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Limit" type="xs:int" />
         </xs:sequence>
       </xs:complexType>
       <xs:element name="SearchQuery" nillable="true" type="tns:SearchQuery" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Server.Faults" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Server.Faults" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="NotFoundFault">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Operation" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="NotFoundFault" nillable="true" type="tns:NotFoundFault" />
+      <xs:complexType name="WrongInputFault">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Method" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Details" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="WrongInputFault" nillable="true" type="tns:WrongInputFault" />
     </xs:schema>
   </wsdl:types>
   <wsdl:message name="IDatabaseService_Add_InputMessage">
@@ -231,11 +248,17 @@
   <wsdl:message name="IDatabaseService_GetAll_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAllResponse" />
   </wsdl:message>
+  <wsdl:message name="IDatabaseService_GetAll_NotFoundFaultFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/Server.Faults" name="detail" element="q1:NotFoundFault" />
+  </wsdl:message>
   <wsdl:message name="IDatabaseService_GetPage_InputMessage">
     <wsdl:part name="parameters" element="tns:GetPage" />
   </wsdl:message>
   <wsdl:message name="IDatabaseService_GetPage_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetPageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_GetPage_NotFoundFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/Server.Faults" name="detail" element="q2:NotFoundFault" />
   </wsdl:message>
   <wsdl:message name="IDatabaseService_GetById_InputMessage">
     <wsdl:part name="parameters" element="tns:GetById" />
@@ -243,17 +266,26 @@
   <wsdl:message name="IDatabaseService_GetById_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetByIdResponse" />
   </wsdl:message>
+  <wsdl:message name="IDatabaseService_GetById_NotFoundFaultFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/Server.Faults" name="detail" element="q3:NotFoundFault" />
+  </wsdl:message>
   <wsdl:message name="IDatabaseService_Search_InputMessage">
     <wsdl:part name="parameters" element="tns:Search" />
   </wsdl:message>
   <wsdl:message name="IDatabaseService_Search_OutputMessage">
     <wsdl:part name="parameters" element="tns:SearchResponse" />
   </wsdl:message>
+  <wsdl:message name="IDatabaseService_Search_NotFoundFaultFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/Server.Faults" name="detail" element="q4:NotFoundFault" />
+  </wsdl:message>
   <wsdl:message name="IDatabaseService_Edit_InputMessage">
     <wsdl:part name="parameters" element="tns:Edit" />
   </wsdl:message>
   <wsdl:message name="IDatabaseService_Edit_OutputMessage">
     <wsdl:part name="parameters" element="tns:EditResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDatabaseService_Edit_WrongInputFaultFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/Server.Faults" name="detail" element="q5:WrongInputFault" />
   </wsdl:message>
   <wsdl:message name="IDatabaseService_Delete_InputMessage">
     <wsdl:part name="parameters" element="tns:Delete" />
@@ -263,38 +295,43 @@
   </wsdl:message>
   <wsdl:portType name="IDatabaseService">
     <wsdl:operation name="Add">
-      <wsdl:input wsaw:Action="http://kovior.com/services/IDatabaseService/Add" message="tns:IDatabaseService_Add_InputMessage" />
-      <wsdl:output wsaw:Action="http://kovior.com/services/IDatabaseService/AddResponse" message="tns:IDatabaseService_Add_OutputMessage" />
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/Add" message="tns:IDatabaseService_Add_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/AddResponse" message="tns:IDatabaseService_Add_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetAll">
-      <wsdl:input wsaw:Action="http://kovior.com/services/IDatabaseService/GetAll" message="tns:IDatabaseService_GetAll_InputMessage" />
-      <wsdl:output wsaw:Action="http://kovior.com/services/IDatabaseService/GetAllResponse" message="tns:IDatabaseService_GetAll_OutputMessage" />
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/GetAll" message="tns:IDatabaseService_GetAll_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/GetAllResponse" message="tns:IDatabaseService_GetAll_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://account.repository/server/IDatabaseService/GetAllNotFoundFaultFault" name="NotFoundFaultFault" message="tns:IDatabaseService_GetAll_NotFoundFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetPage">
-      <wsdl:input wsaw:Action="http://kovior.com/services/IDatabaseService/GetPage" message="tns:IDatabaseService_GetPage_InputMessage" />
-      <wsdl:output wsaw:Action="http://kovior.com/services/IDatabaseService/GetPageResponse" message="tns:IDatabaseService_GetPage_OutputMessage" />
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/GetPage" message="tns:IDatabaseService_GetPage_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/GetPageResponse" message="tns:IDatabaseService_GetPage_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://account.repository/server/IDatabaseService/GetPageNotFoundFaultFault" name="NotFoundFaultFault" message="tns:IDatabaseService_GetPage_NotFoundFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetById">
-      <wsdl:input wsaw:Action="http://kovior.com/services/IDatabaseService/GetById" message="tns:IDatabaseService_GetById_InputMessage" />
-      <wsdl:output wsaw:Action="http://kovior.com/services/IDatabaseService/GetByIdResponse" message="tns:IDatabaseService_GetById_OutputMessage" />
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/GetById" message="tns:IDatabaseService_GetById_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/GetByIdResponse" message="tns:IDatabaseService_GetById_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://account.repository/server/IDatabaseService/GetByIdNotFoundFaultFault" name="NotFoundFaultFault" message="tns:IDatabaseService_GetById_NotFoundFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="Search">
-      <wsdl:input wsaw:Action="http://kovior.com/services/IDatabaseService/Search" message="tns:IDatabaseService_Search_InputMessage" />
-      <wsdl:output wsaw:Action="http://kovior.com/services/IDatabaseService/SearchResponse" message="tns:IDatabaseService_Search_OutputMessage" />
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/Search" message="tns:IDatabaseService_Search_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/SearchResponse" message="tns:IDatabaseService_Search_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://account.repository/server/IDatabaseService/SearchNotFoundFaultFault" name="NotFoundFaultFault" message="tns:IDatabaseService_Search_NotFoundFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="Edit">
-      <wsdl:input wsaw:Action="http://kovior.com/services/IDatabaseService/Edit" message="tns:IDatabaseService_Edit_InputMessage" />
-      <wsdl:output wsaw:Action="http://kovior.com/services/IDatabaseService/EditResponse" message="tns:IDatabaseService_Edit_OutputMessage" />
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/Edit" message="tns:IDatabaseService_Edit_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/EditResponse" message="tns:IDatabaseService_Edit_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://account.repository/server/IDatabaseService/EditWrongInputFaultFault" name="WrongInputFaultFault" message="tns:IDatabaseService_Edit_WrongInputFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="Delete">
-      <wsdl:input wsaw:Action="http://kovior.com/services/IDatabaseService/Delete" message="tns:IDatabaseService_Delete_InputMessage" />
-      <wsdl:output wsaw:Action="http://kovior.com/services/IDatabaseService/DeleteResponse" message="tns:IDatabaseService_Delete_OutputMessage" />
+      <wsdl:input wsaw:Action="http://account.repository/server/IDatabaseService/Delete" message="tns:IDatabaseService_Delete_InputMessage" />
+      <wsdl:output wsaw:Action="http://account.repository/server/IDatabaseService/DeleteResponse" message="tns:IDatabaseService_Delete_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IDatabaseService" type="tns:IDatabaseService">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="Add">
-      <soap:operation soapAction="http://kovior.com/services/IDatabaseService/Add" style="document" />
+      <soap:operation soapAction="http://account.repository/server/IDatabaseService/Add" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -303,52 +340,67 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetAll">
-      <soap:operation soapAction="http://kovior.com/services/IDatabaseService/GetAll" style="document" />
+      <soap:operation soapAction="http://account.repository/server/IDatabaseService/GetAll" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
+      <wsdl:fault name="NotFoundFaultFault">
+        <soap:fault use="literal" name="NotFoundFaultFault" namespace="" />
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetPage">
-      <soap:operation soapAction="http://kovior.com/services/IDatabaseService/GetPage" style="document" />
+      <soap:operation soapAction="http://account.repository/server/IDatabaseService/GetPage" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
+      <wsdl:fault name="NotFoundFaultFault">
+        <soap:fault use="literal" name="NotFoundFaultFault" namespace="" />
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetById">
-      <soap:operation soapAction="http://kovior.com/services/IDatabaseService/GetById" style="document" />
+      <soap:operation soapAction="http://account.repository/server/IDatabaseService/GetById" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
+      <wsdl:fault name="NotFoundFaultFault">
+        <soap:fault use="literal" name="NotFoundFaultFault" namespace="" />
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="Search">
-      <soap:operation soapAction="http://kovior.com/services/IDatabaseService/Search" style="document" />
+      <soap:operation soapAction="http://account.repository/server/IDatabaseService/Search" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
+      <wsdl:fault name="NotFoundFaultFault">
+        <soap:fault use="literal" name="NotFoundFaultFault" namespace="" />
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="Edit">
-      <soap:operation soapAction="http://kovior.com/services/IDatabaseService/Edit" style="document" />
+      <soap:operation soapAction="http://account.repository/server/IDatabaseService/Edit" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
+      <wsdl:fault name="WrongInputFaultFault">
+        <soap:fault use="literal" name="WrongInputFaultFault" namespace="" />
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="Delete">
-      <soap:operation soapAction="http://kovior.com/services/IDatabaseService/Delete" style="document" />
+      <soap:operation soapAction="http://account.repository/server/IDatabaseService/Delete" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

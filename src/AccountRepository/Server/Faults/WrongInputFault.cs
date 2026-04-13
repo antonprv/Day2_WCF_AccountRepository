@@ -22,16 +22,20 @@ namespace Server.Faults
     private const string _reason = "Wrong input";
     private const string _reasonRu = "Введены некорректные данные";
 
-    [DataMember]
-    public string Method { get; set; }
+    [DataMember(Order = 0)]
+    public string Method { get; private set; }
 
-    [DataMember]
-    public string Message { get; set; }
+    [DataMember(Order = 1)]
+    public string Message { get; private set; }
 
-    public WrongInputFault(string field, string error)
+    [DataMember(Order = 2)]
+    public string Details { get; private set; }
+
+    public WrongInputFault(string field, string message, string details)
     {
       Method = field;
-      Message = error;
+      Message = message;
+      Details = details;
     }
   }
 }

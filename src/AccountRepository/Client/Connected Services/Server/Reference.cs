@@ -23,10 +23,7 @@ namespace Client.Server {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.DateTime BirthDateField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string EmailField;
+        private int IdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string FirstNameField;
@@ -35,16 +32,19 @@ namespace Client.Server {
         private string FirstNameRuField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string LastNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string LastNameRuField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string EmailField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string PhoneField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime BirthDateField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -53,58 +53,6 @@ namespace Client.Server {
             }
             set {
                 this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
-        public System.DateTime BirthDate {
-            get {
-                return this.BirthDateField;
-            }
-            set {
-                if ((this.BirthDateField.Equals(value) != true)) {
-                    this.BirthDateField = value;
-                    this.RaisePropertyChanged("BirthDate");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
-        public string Email {
-            get {
-                return this.EmailField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.EmailField, value) != true)) {
-                    this.EmailField = value;
-                    this.RaisePropertyChanged("Email");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
-        public string FirstName {
-            get {
-                return this.FirstNameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.FirstNameField, value) != true)) {
-                    this.FirstNameField = value;
-                    this.RaisePropertyChanged("FirstName");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
-        public string FirstNameRu {
-            get {
-                return this.FirstNameRuField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.FirstNameRuField, value) != true)) {
-                    this.FirstNameRuField = value;
-                    this.RaisePropertyChanged("FirstNameRu");
-                }
             }
         }
         
@@ -121,7 +69,33 @@ namespace Client.Server {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string FirstName {
+            get {
+                return this.FirstNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FirstNameField, value) != true)) {
+                    this.FirstNameField = value;
+                    this.RaisePropertyChanged("FirstName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string FirstNameRu {
+            get {
+                return this.FirstNameRuField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FirstNameRuField, value) != true)) {
+                    this.FirstNameRuField = value;
+                    this.RaisePropertyChanged("FirstNameRu");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
         public string LastName {
             get {
                 return this.LastNameField;
@@ -134,7 +108,7 @@ namespace Client.Server {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
         public string LastNameRu {
             get {
                 return this.LastNameRuField;
@@ -147,7 +121,20 @@ namespace Client.Server {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=5)]
+        public string Email {
+            get {
+                return this.EmailField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.EmailField, value) != true)) {
+                    this.EmailField = value;
+                    this.RaisePropertyChanged("Email");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=6)]
         public string Phone {
             get {
                 return this.PhoneField;
@@ -156,6 +143,80 @@ namespace Client.Server {
                 if ((object.ReferenceEquals(this.PhoneField, value) != true)) {
                     this.PhoneField = value;
                     this.RaisePropertyChanged("Phone");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=7)]
+        public System.DateTime BirthDate {
+            get {
+                return this.BirthDateField;
+            }
+            set {
+                if ((this.BirthDateField.Equals(value) != true)) {
+                    this.BirthDateField = value;
+                    this.RaisePropertyChanged("BirthDate");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="NotFoundFault", Namespace="http://schemas.datacontract.org/2004/07/Server.Faults")]
+    [System.SerializableAttribute()]
+    public partial class NotFoundFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MessageField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string OperationField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Message {
+            get {
+                return this.MessageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
+                    this.MessageField = value;
+                    this.RaisePropertyChanged("Message");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Operation {
+            get {
+                return this.OperationField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.OperationField, value) != true)) {
+                    this.OperationField = value;
+                    this.RaisePropertyChanged("Operation");
                 }
             }
         }
@@ -180,10 +241,10 @@ namespace Client.Server {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int LimitField;
+        private string RawInputField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string RawInputField;
+        private int LimitField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -192,19 +253,6 @@ namespace Client.Server {
             }
             set {
                 this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Limit {
-            get {
-                return this.LimitField;
-            }
-            set {
-                if ((this.LimitField.Equals(value) != true)) {
-                    this.LimitField = value;
-                    this.RaisePropertyChanged("Limit");
-                }
             }
         }
         
@@ -221,6 +269,96 @@ namespace Client.Server {
             }
         }
         
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public int Limit {
+            get {
+                return this.LimitField;
+            }
+            set {
+                if ((this.LimitField.Equals(value) != true)) {
+                    this.LimitField = value;
+                    this.RaisePropertyChanged("Limit");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="WrongInputFault", Namespace="http://schemas.datacontract.org/2004/07/Server.Faults")]
+    [System.SerializableAttribute()]
+    public partial class WrongInputFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MethodField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MessageField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DetailsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Method {
+            get {
+                return this.MethodField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MethodField, value) != true)) {
+                    this.MethodField = value;
+                    this.RaisePropertyChanged("Method");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public string Message {
+            get {
+                return this.MessageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
+                    this.MessageField = value;
+                    this.RaisePropertyChanged("Message");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+        public string Details {
+            get {
+                return this.DetailsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DetailsField, value) != true)) {
+                    this.DetailsField = value;
+                    this.RaisePropertyChanged("Details");
+                }
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -232,49 +370,54 @@ namespace Client.Server {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://kovior.com/services", ConfigurationName="Server.IDatabaseService")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://account.repository/server", ConfigurationName="Server.IDatabaseService")]
     public interface IDatabaseService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/Add", ReplyAction="http://kovior.com/services/IDatabaseService/AddResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/Add", ReplyAction="http://account.repository/server/IDatabaseService/AddResponse")]
         int Add(Client.Server.User user);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/Add", ReplyAction="http://kovior.com/services/IDatabaseService/AddResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/Add", ReplyAction="http://account.repository/server/IDatabaseService/AddResponse")]
         System.Threading.Tasks.Task<int> AddAsync(Client.Server.User user);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/GetAll", ReplyAction="http://kovior.com/services/IDatabaseService/GetAllResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/GetAll", ReplyAction="http://account.repository/server/IDatabaseService/GetAllResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.Server.NotFoundFault), Action="http://account.repository/server/IDatabaseService/GetAllNotFoundFaultFault", Name="NotFoundFault", Namespace="http://schemas.datacontract.org/2004/07/Server.Faults")]
         Client.Server.User[] GetAll();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/GetAll", ReplyAction="http://kovior.com/services/IDatabaseService/GetAllResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/GetAll", ReplyAction="http://account.repository/server/IDatabaseService/GetAllResponse")]
         System.Threading.Tasks.Task<Client.Server.User[]> GetAllAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/GetPage", ReplyAction="http://kovior.com/services/IDatabaseService/GetPageResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/GetPage", ReplyAction="http://account.repository/server/IDatabaseService/GetPageResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.Server.NotFoundFault), Action="http://account.repository/server/IDatabaseService/GetPageNotFoundFaultFault", Name="NotFoundFault", Namespace="http://schemas.datacontract.org/2004/07/Server.Faults")]
         Client.Server.User[] GetPage(int pageIndex, int itemsInPage);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/GetPage", ReplyAction="http://kovior.com/services/IDatabaseService/GetPageResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/GetPage", ReplyAction="http://account.repository/server/IDatabaseService/GetPageResponse")]
         System.Threading.Tasks.Task<Client.Server.User[]> GetPageAsync(int pageIndex, int itemsInPage);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/GetById", ReplyAction="http://kovior.com/services/IDatabaseService/GetByIdResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/GetById", ReplyAction="http://account.repository/server/IDatabaseService/GetByIdResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.Server.NotFoundFault), Action="http://account.repository/server/IDatabaseService/GetByIdNotFoundFaultFault", Name="NotFoundFault", Namespace="http://schemas.datacontract.org/2004/07/Server.Faults")]
         Client.Server.User GetById(int id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/GetById", ReplyAction="http://kovior.com/services/IDatabaseService/GetByIdResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/GetById", ReplyAction="http://account.repository/server/IDatabaseService/GetByIdResponse")]
         System.Threading.Tasks.Task<Client.Server.User> GetByIdAsync(int id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/Search", ReplyAction="http://kovior.com/services/IDatabaseService/SearchResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/Search", ReplyAction="http://account.repository/server/IDatabaseService/SearchResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.Server.NotFoundFault), Action="http://account.repository/server/IDatabaseService/SearchNotFoundFaultFault", Name="NotFoundFault", Namespace="http://schemas.datacontract.org/2004/07/Server.Faults")]
         Client.Server.User[] Search(Client.Server.SearchQuery query);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/Search", ReplyAction="http://kovior.com/services/IDatabaseService/SearchResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/Search", ReplyAction="http://account.repository/server/IDatabaseService/SearchResponse")]
         System.Threading.Tasks.Task<Client.Server.User[]> SearchAsync(Client.Server.SearchQuery query);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/Edit", ReplyAction="http://kovior.com/services/IDatabaseService/EditResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/Edit", ReplyAction="http://account.repository/server/IDatabaseService/EditResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.Server.WrongInputFault), Action="http://account.repository/server/IDatabaseService/EditWrongInputFaultFault", Name="WrongInputFault", Namespace="http://schemas.datacontract.org/2004/07/Server.Faults")]
         bool Edit(Client.Server.User user);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/Edit", ReplyAction="http://kovior.com/services/IDatabaseService/EditResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/Edit", ReplyAction="http://account.repository/server/IDatabaseService/EditResponse")]
         System.Threading.Tasks.Task<bool> EditAsync(Client.Server.User user);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/Delete", ReplyAction="http://kovior.com/services/IDatabaseService/DeleteResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/Delete", ReplyAction="http://account.repository/server/IDatabaseService/DeleteResponse")]
         bool Delete(int id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://kovior.com/services/IDatabaseService/Delete", ReplyAction="http://kovior.com/services/IDatabaseService/DeleteResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://account.repository/server/IDatabaseService/Delete", ReplyAction="http://account.repository/server/IDatabaseService/DeleteResponse")]
         System.Threading.Tasks.Task<bool> DeleteAsync(int id);
     }
     

@@ -4,6 +4,10 @@
 using System;
 using System.Windows.Forms;
 
+using Client.Infrastructure;
+
+using Unity;
+
 namespace Client
 {
   internal static class Program
@@ -16,7 +20,14 @@ namespace Client
     {
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new Forms.MainForm());
+
+      using (var container = UnityContainerBuilder.Build())
+      {
+        Forms.MainForm mainForm =
+          container.Resolve<Forms.MainForm>();
+
+        Application.Run(mainForm);
+      }
     }
   }
 }

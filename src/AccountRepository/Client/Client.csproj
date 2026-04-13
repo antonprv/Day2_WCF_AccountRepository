@@ -68,7 +68,10 @@
     <Compile Include="Forms\DeleteDialog.Designer.cs">
       <DependentUpon>DeleteDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\IUserProvider.cs" />
+    <Compile Include="Infrastructure\ContainerKeys.cs" />
+    <Compile Include="Models\Extensions.cs" />
+    <Compile Include="Models\SearchQuery.cs" />
+    <Compile Include="Services\IUserProvider.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,8 +84,17 @@
     <Compile Include="Forms\UserEditForm.Designer.cs">
       <DependentUpon>UserEditForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\UnityContainerBuilder.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IAccountService.cs" />
+    <Compile Include="Services\WcfAccountService.cs" />
+    <Compile Include="Validation\Messages\ValidationCode.cs" />
+    <Compile Include="Validation\Messages\ValidationMessages.cs" />
+    <Compile Include="Validation\Ops.cs" />
+    <Compile Include="Validation\SearchQueryParser.cs" />
+    <Compile Include="Validation\ValidationResult.cs" />
     <EmbeddedResource Include="Forms\DeleteDialog.resx">
       <DependentUpon>DeleteDialog.cs</DependentUpon>
     </EmbeddedResource>

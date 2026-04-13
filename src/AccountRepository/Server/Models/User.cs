@@ -56,13 +56,17 @@ namespace Server.Models
     [DataMember(EmitDefaultValue = false, Order = 7)]
     public DateTime BirthDate { get; set; }
 
+    private const string _tab = "\t\t\t\t\t\t\t\t";
+    private const string _finalTab = "\t\t\t\t\t";
+
     public override string ToString() =>
-      $"\n\t{Id} \n" +
-      $"\t{FirstName} ({FirstNameRu})\n" +
-      $"\t{LastName} ({LastNameRu})\n" +
-      $"\t{Email} \n" +
-      $"\t{Phone} \n" +
-      $"\t{BirthDate}\n";
+      $"\n{_tab}" + $"{Id} \n" +
+      $"{_tab}"   + $"{FirstName} ({FirstNameRu})\n" +
+      $"{_tab}"   + $"{LastName} ({LastNameRu})\n" +
+      $"{_tab}"   + $"{Email} \n" +
+      $"{_tab}"   + $"{Phone} \n" +
+      $"{_tab}"   + $"{BirthDate.ToString("dd.MM.yyyy")}\n" +
+      $"{_finalTab}";
 
     public void Clear() => InitProperties();
 

@@ -4,13 +4,27 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
+using System.ServiceModel;
 using System.Windows.Forms;
+
+using Client.Server;
+using Client.Services;
 
 namespace Client.Forms
 {
   public partial class MainForm : Form
   {
+    #region Dependencies
+
+    private readonly IAccountService _accountService;
+    private readonly Func<IUserProvider> _userProviderFactory;
+
+    #endregion
+
+    #region Private fields
+
     private readonly List<Models.User> _users =
       new List<Models.User>();
 
@@ -22,11 +36,24 @@ namespace Client.Forms
     private ContextMenuStrip _contextMenu;
     private readonly string _defaultSearchBoxText;
 
-    public MainForm()
+    #endregion
+
+    #region Pagination
+
+    private int _currentPage = 0;
+    private bool _wasChanged;
+    private const int PageSize = 10;
+
+    #endregion
+
+    public MainForm(
+      IAccountService accountService,
+      Func<IUserProvider> userProviderFactory)
     {
       InitializeComponent();
 
-      // TODO: SERVICE INIT
+      _accountService = accountService;
+      _userProviderFactory = userProviderFactory;
 
       _defaultSearchBoxText = searchBox.Text;
 
@@ -106,24 +133,47 @@ namespace Client.Forms
     private void SearchBox_Click(object sender, EventArgs e) =>
       SetSearchBoxText(string.Empty);
 
-    private void SearchBox_Leave(object sender, EventArgs e) =>
+    private void SearchBox_Leave(object sender, EventArgs e)
+    {
       SetSearchBoxText(_defaultSearchBoxText);
+
+      if (_users.Count == 0)
+        RefreshGrid();
+    }
 
     private void SearchBox_TextChanged(object sender, EventArgs e)
     {
       if (_searchBoxBusy) return;
+      _wasChanged = true;
+    }
 
-      var query = searchBox.Text.ToLower();
-      var filtered = string.IsNullOrEmpty(query)
-          ? _users
-          : _users.Where(u =>
-              u.FirstName.ToLower().Contains(query) ||
-              u.LastName.ToLower().Contains(query) ||
-              u.Email.ToLower().Contains(query) ||
-              u.Phone.Contains(query)).ToList();
+    private void SearchBox_KeyDown(object sender, KeyEventArgs e)
+    {
+      if (e.KeyCode != Keys.Enter) return;
 
-      dataGridView.DataSource = new BindingList<Models.User>(filtered);
-      statusLabel.Text = $"Найдено: {filtered.Count} из {_users.Count}";
+      if (!_wasChanged) return;
+
+      try
+      {
+        var query = searchBox.Text.ToLower();
+
+        var filtered =
+          _accountService
+          .Search(new Models.SearchQuery(query, PageSize));
+
+        dataGridView.DataSource = new BindingList<Models.User>(filtered);
+        statusLabel.Text = $"Найдено: {filtered.Count} из {_users.Count}";
+
+        _wasChanged = false;
+      }
+      catch (FaultException<NotFoundFault> fault)
+      {
+        ShowMessage(
+          fault.Detail.Message,
+          fault.Detail.Operation,
+          fault.Reason.ToString()
+          );
+      }
     }
 
     #endregion
@@ -133,17 +183,26 @@ namespace Client.Forms
     // Create user
     private void AddButton_Click(object sender, EventArgs e)
     {
-      using (var form = new UserEditForm())
+      try
       {
-        if (form.ShowDialog() == DialogResult.OK)
-        {
-          if (form is IUserProvider provider)
-            _users.Add(provider.User);
+        using (var form = (Form)_userProviderFactory())
 
-          // TODO: SERVICE CALL
-
-          RefreshGrid();
-        }
+          if (form.ShowDialog() == DialogResult.OK)
+          {
+            if (form is IUserProvider provider)
+            {
+              _accountService.Add(provider.User);
+              RefreshGrid();
+            }
+          }
+      }
+      catch (FaultException<WrongInputFault> fault)
+      {
+        ShowMessage(
+          fault.Detail.Method,
+          fault.Detail.Message + $"\n{fault.Detail.Details}",
+          fault.Reason.ToString()
+          );
       }
     }
 
@@ -154,17 +213,31 @@ namespace Client.Forms
 
       if (_selectedUsers.Count > 1) return;
 
-      using (var form = new UserEditForm(_selectedUsers[0]))
+      try
       {
-        if (form.ShowDialog() == DialogResult.OK)
+        using (var form = (Form)_userProviderFactory())
         {
           if (form is IUserProvider provider)
-            _users[_users.IndexOf(_selectedUsers[0])] = provider.User;
+          {
+            provider.GetUserForEditing(_selectedUsers[0]);
 
-          // TODO: SERVICE CALL
-
-          RefreshGrid();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+              _accountService.Edit(provider.User);
+              RefreshGrid();
+            }
+          }
         }
+
+
+      }
+      catch (FaultException<WrongInputFault> fault)
+      {
+        ShowMessage(
+          fault.Detail.Method,
+          fault.Detail.Message + $"\n{fault.Detail.Details}",
+          fault.Reason.ToString()
+          );
       }
     }
 
@@ -177,9 +250,8 @@ namespace Client.Forms
       {
         if (form.ShowDialog() == DialogResult.OK)
         {
-          _users.RemoveAll(u => _selectedUsers.Contains(u));
-
-          // TODO: SERVICE CALL
+          foreach (var user in _selectedUsers)
+            _accountService.Delete(user.Id);
 
           RefreshGrid();
         }
@@ -222,12 +294,20 @@ namespace Client.Forms
     {
       dataGridView.SelectionChanged -= DataGridView_SelectionChanged;
 
+      // Загружаем страницу через сервис
+      var page = _accountService.GetPage(_currentPage, PageSize);
+
+      _users.Clear();
+      _users.AddRange(page);
+
       dataGridView.DataSource = new BindingList<Models.User>(_users);
       FormatGrid();
 
       dataGridView.SelectionChanged += DataGridView_SelectionChanged;
 
-      statusLabel.Text = $"Пользователей: {_users.Count}";
+      statusLabel.Text = $"Страница {_currentPage + 1} — записей: {_users.Count}";
+
+      UpdatePaginationButtons();
     }
 
     private void FormatGrid()
@@ -237,11 +317,18 @@ namespace Client.Forms
       dataGridView
         .Columns[$"{nameof(Models.User.FirstName)}"].FillWeight = 20;
       dataGridView
-        .Columns[$"{nameof(Models.User.LastName)}"].FillWeight = 20;
+        .Columns[$"{nameof(Models.User.FirstNameRu)}"].FillWeight = 20;
+      dataGridView
+        .Columns[$"{nameof(Models.User.LastName)}"].FillWeight = 40;
+      dataGridView
+        .Columns[$"{nameof(Models.User.LastNameRu)}"].FillWeight = 40;
       dataGridView
         .Columns[$"{nameof(Models.User.Email)}"].FillWeight = 40;
       dataGridView
-        .Columns[$"{nameof(Models.User.Phone)}"].FillWeight = 20;
+        .Columns[$"{nameof(Models.User.Phone)}"].FillWeight = 40;
+      dataGridView
+        .Columns[$"{nameof(Models.User.BirthDate)}"].FillWeight = 30;
+
       dataGridView.RowHeadersWidth = 25;
 
       dataGridView
@@ -257,6 +344,35 @@ namespace Client.Forms
         return dt.ToString("dd.MM.yyyy");
 
       return value.ToString();
+    }
+
+    private void UpdatePaginationButtons()
+    {
+      // Кнопка "назад" — неактивна на первой странице
+      bool canGoBack = _currentPage > 0;
+      paginationBackButton.Enabled = canGoBack;
+      paginationBackButton.BackColor = canGoBack ? SystemColors.Control : Color.LightGray;
+
+      // Кнопка "далее" — неактивна если записей меньше чем PageSize
+      bool canGoNext = _users.Count == PageSize;
+      paginationForwardButton.Enabled = canGoNext;
+      paginationForwardButton.BackColor = canGoNext ? SystemColors.Control : Color.LightGray;
+
+      // Панель с кнопками видна только если есть куда листать
+      paginationToolStrip.Visible = canGoBack || canGoNext || _currentPage > 0;
+    }
+
+    private void ShowMessage(string fieldName, string message, string details)
+    {
+      var result = MessageBox.Show(
+        $"{fieldName}: {message}",
+        $"{details}",
+        MessageBoxButtons.OK,
+        MessageBoxIcon.Error
+        );
+
+      if (result == DialogResult.OK || result == DialogResult.Cancel)
+        RefreshGrid();
     }
 
     #endregion
@@ -286,6 +402,24 @@ namespace Client.Forms
 
     private void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) =>
   EditButton_Click(sender, e);
+
+    #endregion
+
+    #region Pagination Events
+
+    private void PaginationForwardButton_Click(object sender, EventArgs e)
+    {
+      if (_users.Count < PageSize) return;
+      _currentPage++;
+      RefreshGrid();
+    }
+
+    private void PaginationBackButton_Click(object sender, EventArgs e)
+    {
+      if (_currentPage <= 0) return;
+      _currentPage--;
+      RefreshGrid();
+    }
 
     #endregion
   }

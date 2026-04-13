@@ -8,6 +8,7 @@ using System.ServiceModel;
 using Server.Faults;
 using Server.Models;
 using Server.Repository;
+using Server.Validation.Messages;
 
 namespace Server
 {
@@ -23,19 +24,18 @@ namespace Server
 
     public bool Edit(User user)
     {
-      bool success = _repository.Edit(user).IsValid;
+      var validationResult = _repository.Edit(user);
 
-      if (!success)
+      if (!validationResult.IsValid)
         ThrowWrongInput(
           nameof(Edit),
           user,
-          FaultMessages.EditFault(user)
+          FaultMessages.EditFault(user),
+          ValidationMessages.Get(validationResult.Code)
           );
 
-      return success;
+      return true;
     }
-
-
 
     public List<User> GetAll()
     {
@@ -49,8 +49,6 @@ namespace Server
 
       return result;
     }
-
-
 
     public User GetById(int id)
     {
@@ -93,9 +91,9 @@ namespace Server
 
     #region Helpers
 
-    private static void ThrowWrongInput(string method, User user, string message)
+    private static void ThrowWrongInput(string method, User user, string message, string details)
     {
-      var fault = new WrongInputFault(method, message);
+      var fault = new WrongInputFault(method, message, details);
       var reason = fault.GetReason();
       throw new FaultException<WrongInputFault>(fault, reason);
     }

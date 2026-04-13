@@ -5,6 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
+using Client.Services;
+using Client.Validation;
+using Client.Validation.Messages;
+
 namespace Client.Forms
 {
   public partial class UserEditForm : Form, IUserProvider
@@ -16,9 +20,9 @@ namespace Client.Forms
 
     private Models.User _userResult;
 
-    private readonly Dictionary<string, string> _fieldErrors;
+    private readonly Dictionary<string, ValidationCode> _fieldErrors;
 
-    private delegate bool ValidatorDelegate(string input, out string error);
+    private delegate ValidationResult ValidatorDelegate(string input);
 
     public UserEditForm()
     {
@@ -26,18 +30,18 @@ namespace Client.Forms
 
       Text = "Добавить пользователя";
 
-      _fieldErrors = new Dictionary<string, string>();
+      _fieldErrors = new Dictionary<string, ValidationCode>();
     }
 
-    public UserEditForm(Models.User user)
+    public void GetUserForEditing(Models.User user)
     {
       if (user == null)
         throw new ArgumentNullException("user");
 
-      InitializeComponent();
-
       firstNameBox.Text = user.FirstName;
+      firstNameBoxRu.Text = user.FirstNameRu;
       lastNameBox.Text = user.LastName;
+      lastNameBoxRu.Text = user.LastNameRu;
       emailBox.Text = user.Email;
       phoneBox.Text = user.Phone;
       birthDatePicker.Value = user.BirthDate;
@@ -60,7 +64,9 @@ namespace Client.Forms
 
       _userResult = new Models.User(
           firstName: firstNameBox.Text,
+          firstNameRu: firstNameBoxRu.Text,
           lastName: lastNameBox.Text,
+          lastNameRu: lastNameBoxRu.Text,
           email: emailBox.Text,
           phone: phoneBox.Text,
           birthDate: birthDatePicker.Value
@@ -95,9 +101,11 @@ namespace Client.Forms
     string value,
     ValidatorDelegate validator)
     {
-      if (!validator(value, out var errorCode))
+      var result = validator(value);
+
+      if (!result.IsValid)
       {
-        _fieldErrors[fieldName] = errorCode;
+        _fieldErrors[fieldName] = result.Code;
       }
     }
 
@@ -108,7 +116,7 @@ namespace Client.Forms
         var fieldName = kvp.Key;
         var errorCode = kvp.Value;
 
-        var message = Validation.ErrorMessages.Get(errorCode);
+        var message = ValidationMessages.Get(errorCode);
 
         ShowMessage(fieldName, message, "Ошибка");
 

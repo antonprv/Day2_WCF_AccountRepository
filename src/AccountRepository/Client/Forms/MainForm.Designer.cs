@@ -39,9 +39,13 @@ namespace Client.Forms
       this.dataGridView = new System.Windows.Forms.DataGridView();
       this.statusStrip = new System.Windows.Forms.StatusStrip();
       this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+      this.paginationToolStrip = new System.Windows.Forms.ToolStrip();
+      this.paginationBackButton = new System.Windows.Forms.ToolStripButton();
+      this.paginationForwardButton = new System.Windows.Forms.ToolStripButton();
       this.toolStrip.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
       this.statusStrip.SuspendLayout();
+      this.paginationToolStrip.SuspendLayout();
       this.SuspendLayout();
       // 
       // toolStrip
@@ -95,6 +99,7 @@ namespace Client.Forms
       this.searchBox.Size = new System.Drawing.Size(450, 34);
       this.searchBox.Text = "Поиск по имени, фамилии, email, телефону...";
       this.searchBox.Leave += new System.EventHandler(this.SearchBox_Leave);
+      this.searchBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchBox_KeyDown);
       this.searchBox.Click += new System.EventHandler(this.SearchBox_Click);
       this.searchBox.TextChanged += new System.EventHandler(this.SearchBox_TextChanged);
       // 
@@ -104,15 +109,17 @@ namespace Client.Forms
       this.dataGridView.AllowUserToDeleteRows = false;
       this.dataGridView.AllowUserToResizeColumns = false;
       this.dataGridView.AllowUserToResizeRows = false;
+      this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.dataGridView.ColumnHeadersHeight = 34;
-      this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
       this.dataGridView.Location = new System.Drawing.Point(0, 34);
       this.dataGridView.Name = "dataGridView";
       this.dataGridView.ReadOnly = true;
       this.dataGridView.RowHeadersWidth = 62;
       this.dataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
       this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-      this.dataGridView.Size = new System.Drawing.Size(900, 484);
+      this.dataGridView.Size = new System.Drawing.Size(900, 447);
       this.dataGridView.TabIndex = 1;
       this.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDoubleClick);
       this.dataGridView.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_ColumnHeaderMouseClick);
@@ -135,9 +142,46 @@ namespace Client.Forms
       this.statusLabel.Size = new System.Drawing.Size(155, 25);
       this.statusLabel.Text = "Пользователей: 0";
       // 
+      // paginationToolStrip
+      // 
+      this.paginationToolStrip.CanOverflow = false;
+      this.paginationToolStrip.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this.paginationToolStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
+      this.paginationToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.paginationBackButton,
+            this.paginationForwardButton});
+      this.paginationToolStrip.Location = new System.Drawing.Point(0, 484);
+      this.paginationToolStrip.Name = "paginationToolStrip";
+      this.paginationToolStrip.Size = new System.Drawing.Size(900, 34);
+      this.paginationToolStrip.TabIndex = 3;
+      // 
+      // paginationBackButton
+      // 
+      this.paginationBackButton.AutoSize = false;
+      this.paginationBackButton.BackColor = System.Drawing.Color.Gainsboro;
+      this.paginationBackButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+      this.paginationBackButton.Margin = new System.Windows.Forms.Padding(1, 2, 1, 3);
+      this.paginationBackButton.Name = "paginationBackButton";
+      this.paginationBackButton.Size = new System.Drawing.Size(150, 29);
+      this.paginationBackButton.Text = "Назад";
+      this.paginationBackButton.Click += new System.EventHandler(this.PaginationBackButton_Click);
+      // 
+      // paginationForwardButton
+      // 
+      this.paginationForwardButton.AutoSize = false;
+      this.paginationForwardButton.BackColor = System.Drawing.Color.Gainsboro;
+      this.paginationForwardButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+      this.paginationForwardButton.Margin = new System.Windows.Forms.Padding(1, 2, 1, 3);
+      this.paginationForwardButton.Name = "paginationForwardButton";
+      this.paginationForwardButton.RightToLeft = System.Windows.Forms.RightToLeft.No;
+      this.paginationForwardButton.Size = new System.Drawing.Size(150, 29);
+      this.paginationForwardButton.Text = "Вперёд";
+      this.paginationForwardButton.Click += new System.EventHandler(this.PaginationForwardButton_Click);
+      // 
       // MainForm
       // 
       this.ClientSize = new System.Drawing.Size(900, 550);
+      this.Controls.Add(this.paginationToolStrip);
       this.Controls.Add(this.dataGridView);
       this.Controls.Add(this.toolStrip);
       this.Controls.Add(this.statusStrip);
@@ -150,6 +194,8 @@ namespace Client.Forms
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
       this.statusStrip.ResumeLayout(false);
       this.statusStrip.PerformLayout();
+      this.paginationToolStrip.ResumeLayout(false);
+      this.paginationToolStrip.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -180,6 +226,9 @@ namespace Client.Forms
     private System.Windows.Forms.DataGridViewTextBoxColumn colBirthDate;
     private System.Windows.Forms.StatusStrip statusStrip;
     private System.Windows.Forms.ToolStripStatusLabel statusLabel;
+    private System.Windows.Forms.ToolStrip paginationToolStrip;
+    private System.Windows.Forms.ToolStripButton paginationBackButton;
+    private System.Windows.Forms.ToolStripButton paginationForwardButton;
   }
 }
 
