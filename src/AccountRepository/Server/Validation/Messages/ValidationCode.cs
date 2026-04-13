@@ -5,32 +5,32 @@ namespace Server.Validation.Messages
 {
   public enum ValidationCode
   {
-    None,
+    None                = 0,
 
     // Unkown error
-    Unknown,
+    Unknown             = 1,
 
     // Database error
-    DbError,
+    DbError             = 2,
 
     // Email
-    EmailEmpty,
-    EmailTooLong,
-    EmailInvalidFormat,
-    EmailInvalidChars,
-    EmailInvalidDomain,
+    EmailEmpty          = 3,
+    EmailTooLong        = 4,
+    EmailInvalidFormat  = 5,
+    EmailInvalidChars   = 6,
+    EmailInvalidDomain  = 7,
 
     // Phone
-    PhoneEmpty,
-    PhoneInvalidFormat,
-    PhoneTimeout,
+    PhoneEmpty          = 8,
+    PhoneInvalidFormat  = 9,
+    PhoneTimeout        = 10,
 
     // Name
-    NameEmpty,
-    NameInvalid,
-    NameTimeout,
+    NameEmpty           = 11,
+    NameInvalid         = 12,
+    NameTimeout         = 13,
 
     // Success
-    OK
+    OK                  = 14
   }
 }

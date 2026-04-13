@@ -9,7 +9,7 @@ namespace Server.Faults
   [DataContract]
   public class WrongInputFault
   {
-    public static string GetReason()
+    public string GetReason()
     {
       var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
@@ -23,15 +23,15 @@ namespace Server.Faults
     private const string _reasonRu = "Введены некорректные данные";
 
     [DataMember]
-    public string Field { get; set; }
+    public string Method { get; set; }
 
     [DataMember]
-    public string Error { get; set; }
+    public string Message { get; set; }
 
     public WrongInputFault(string field, string error)
     {
-      Field = field;
-      Error = error;
+      Method = field;
+      Message = error;
     }
   }
 }

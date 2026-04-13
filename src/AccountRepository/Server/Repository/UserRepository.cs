@@ -247,7 +247,7 @@ namespace Server.Repository
       var validationResult = user.Validate();
 
       if (!validationResult.IsValid)
-        return Validation.ValidationResult.Fail(validationResult);
+        return Validation.ValidationResult.Fail(validationResult.Code);
 
       using (var connection = new SqliteConnection(_connectionString))
       {

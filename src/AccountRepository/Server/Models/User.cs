@@ -56,7 +56,13 @@ namespace Server.Models
     [DataMember(EmitDefaultValue = false, Order = 7)]
     public DateTime BirthDate { get; set; }
 
-    public override string ToString() => $"{LastName} {FirstName}";
+    public override string ToString() =>
+      $"\n\t{Id} \n" +
+      $"\t{FirstName} ({FirstNameRu})\n" +
+      $"\t{LastName} ({LastNameRu})\n" +
+      $"\t{Email} \n" +
+      $"\t{Phone} \n" +
+      $"\t{BirthDate}\n";
 
     public void Clear() => InitProperties();
 
@@ -81,9 +87,9 @@ namespace Server.Models
       Phone == string.Empty;
 
 
-    public ValidationResult Validate()
+    public Validation.ValidationResult Validate()
     {
-      ValidationResult result;
+      Validation.ValidationResult result;
 
       result = Validation.Ops.IsValidName(FirstName);
       if (!result.IsValid)
@@ -109,7 +115,7 @@ namespace Server.Models
       if (!result.IsValid)
         return result;
 
-      return ValidationResult.Ok();
+      return Validation.ValidationResult.Ok();
     }
   }
 }

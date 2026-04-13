@@ -23,6 +23,24 @@ namespace Server.Faults
       return $"Couldn't find user with id {id}";
     }
 
+    public static string GetPageFault() => GetAllFault();
+
+    public static string SearchFault(string query)
+    {
+      if (IsRussian())
+        return $"По поиску {query} не нашлось результатов.";
+
+      return $"No results found for the query {query}.";
+    }
+
+    public static string EditFault(Models.User user)
+    {
+      if (IsRussian())
+        return $"Не удалось добавить пользователя: {user.ToString()}";
+
+      return $"Couldn't add user: {user.ToString()}";
+    }
+
     private static bool IsRussian() =>
       CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ru";
   }

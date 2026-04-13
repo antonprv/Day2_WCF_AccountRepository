@@ -116,6 +116,9 @@
     <Compile Include="DatabaseService.svc.cs">
       <DependentUpon>DatabaseService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Faults\FaultMessages.cs" />
+    <Compile Include="Faults\NotFoundFault.cs" />
+    <Compile Include="Faults\WrongInputFault.cs" />
     <Compile Include="IDatabaseService.cs" />
     <Compile Include="Infrastructure\Container\ContainerBuilder.cs" />
     <Compile Include="Infrastructure\Container\ContainerKeys.cs" />
@@ -128,8 +131,10 @@
     <Compile Include="Validation\SearchQueryParser.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
-    <Compile Include="Validation\ErrorMessages.cs" />
+    <Compile Include="Validation\Messages\ValidationCode.cs" />
+    <Compile Include="Validation\Messages\ValidationMessages.cs" />
     <Compile Include="Validation\Ops.cs" />
+    <Compile Include="Validation\ValidationResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

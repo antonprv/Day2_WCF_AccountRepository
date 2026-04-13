@@ -9,7 +9,7 @@ namespace Server.Faults
   [DataContract]
   public class NotFoundFault
   {
-    public static string GetReason()
+    public string GetReason()
     {
       var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 

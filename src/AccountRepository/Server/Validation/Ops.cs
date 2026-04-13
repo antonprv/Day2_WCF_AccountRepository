@@ -12,17 +12,17 @@ namespace Server.Validation
   {
     public static ValidationResult IsValidEmailMailAddress(string email)
     {
-      ValidationCode code;
+      Messages.ValidationCode code;
 
       if (string.IsNullOrWhiteSpace(email))
       {
-        code = ValidationCode.EmailEmpty;
+        code = Messages.ValidationCode.EmailEmpty;
         return ValidationResult.Fail(code);
       }
 
       if (email.Length > 254)
       {
-        code = ValidationCode.EmailTooLong;
+        code = Messages.ValidationCode.EmailTooLong;
         return ValidationResult.Fail(code);
       }
 
@@ -37,8 +37,8 @@ namespace Server.Validation
         if (!isValid)
         {
           code = addr.Address != email
-              ? ValidationCode.EmailInvalidChars
-              : ValidationCode.EmailInvalidDomain;
+              ? Messages.ValidationCode.EmailInvalidChars
+              : Messages.ValidationCode.EmailInvalidDomain;
 
           return ValidationResult.Fail(code);
         }
@@ -47,18 +47,18 @@ namespace Server.Validation
       }
       catch (FormatException)
       {
-        code = ValidationCode.EmailInvalidFormat;
+        code = Messages.ValidationCode.EmailInvalidFormat;
         return ValidationResult.Fail(code);
       }
     }
 
     public static ValidationResult IsValidPhone(string phone)
     {
-      ValidationCode code;
+      Messages.ValidationCode code;
 
       if (string.IsNullOrWhiteSpace(phone))
       {
-        code = ValidationCode.PhoneEmpty;
+        code = Messages.ValidationCode.PhoneEmpty;
         return ValidationResult.Fail(code);
       }
 
@@ -83,7 +83,7 @@ namespace Server.Validation
 
         if (!isValid)
         {
-          code = ValidationCode.PhoneInvalidFormat;
+          code = Messages.ValidationCode.PhoneInvalidFormat;
           return ValidationResult.Fail(code);
         }
 
@@ -91,18 +91,18 @@ namespace Server.Validation
       }
       catch (RegexMatchTimeoutException)
       {
-        code = ValidationCode.PhoneTimeout;
+        code = Messages.ValidationCode.PhoneTimeout;
         return ValidationResult.Fail(code);
       }
     }
 
     public static ValidationResult IsValidName(string name)
     {
-      ValidationCode code;
+      Messages.ValidationCode code;
 
       if (string.IsNullOrWhiteSpace(name))
       {
-        code = ValidationCode.NameEmpty;
+        code = Messages.ValidationCode.NameEmpty;
         return ValidationResult.Fail(code);
       }
 
@@ -115,7 +115,7 @@ namespace Server.Validation
 
         if (!isValid)
         {
-          code = ValidationCode.NameInvalid;
+          code = Messages.ValidationCode.NameInvalid;
           return ValidationResult.Fail(code);
         }
 
@@ -123,7 +123,7 @@ namespace Server.Validation
       }
       catch (RegexMatchTimeoutException)
       {
-        code = ValidationCode.NameTimeout;
+        code = Messages.ValidationCode.NameTimeout;
         return ValidationResult.Fail(code);
       }
     }
