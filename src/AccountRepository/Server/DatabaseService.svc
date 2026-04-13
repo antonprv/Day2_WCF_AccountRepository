@@ -1,0 +1,6 @@
+<%@
+  ServiceHost Language="C#"
+  Debug="true"
+  Service="Server.DatabaseService"
+  Factory="Server.Infrastructure.WCF.UnityServiceHostFactory"
+  CodeBehind="DatabaseService.svc.cs" %>

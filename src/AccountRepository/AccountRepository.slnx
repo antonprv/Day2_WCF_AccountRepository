@@ -1,4 +1,12 @@
 <Solution>
-  <Project Path="Client/Client.csproj" />
-  <Project Path="Server/Server.csproj" />
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="Client/Client.csproj" Id="734b5953-5ba5-48ef-8e4e-15238484a784">
+    <BuildDependency Project="Server/Server.csproj" />
+  </Project>
+  <Project Path="Server/Server.csproj" Id="b6bc7358-b08a-4782-b0ba-a0836ade1f98">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
 </Solution>

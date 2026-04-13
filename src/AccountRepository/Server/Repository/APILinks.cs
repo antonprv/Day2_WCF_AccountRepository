@@ -1,12 +1,10 @@
 // Created by Anton Piruev in 2026. 
 // Any direct commercial use of derivative work is strictly prohibited.
 
-namespace Server
+namespace Server.Repository
 {
-  internal class Program
+  public static class APILinks
   {
-    static void Main(string[] args)
-    {
-    }
+    public const string ListAll = "all";
   }
 }
