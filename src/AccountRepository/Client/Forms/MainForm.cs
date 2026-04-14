@@ -166,27 +166,16 @@ namespace Client.Forms
 
       if (!_wasChanged) return;
 
-      try
-      {
-        _currentSearchQuery = searchBox.Text.ToLower();
+      _currentSearchQuery = searchBox.Text.ToLower();
 
-        _searchMode = true;
-        SwapCancelColor();
+      _searchMode = true;
+      SwapCancelColor();
 
-        RefreshGrid();
+      RefreshGrid();
 
-        statusLabel.Text = $"Найдено: {_users.Count}";
+      statusLabel.Text = $"Найдено: {_users.Count}";
 
-        _wasChanged = false;
-      }
-      catch (FaultException<NotFoundFault> fault)
-      {
-        ShowMessage(
-          fault.Detail.Message,
-          fault.Detail.Operation,
-          fault.Reason.ToString()
-          );
-      }
+      _wasChanged = false;
     }
 
     private void SwapCancelColor()
@@ -257,8 +246,6 @@ namespace Client.Forms
             }
           }
         }
-
-
       }
       catch (FaultException<WrongInputFault> fault)
       {
@@ -340,7 +327,20 @@ namespace Client.Forms
 
         UpdatePaginationButtons();
       }
-      catch (FaultException)
+      catch (FaultException<NotFoundFault> notFound)
+      {
+        DialogResult dialog = ShowMessage(
+          notFound.Detail.Operation,
+          notFound.Detail.Message,
+          notFound.Reason.ToString()
+          );
+
+        _searchMode = false;
+        SwapCancelColor();
+        RefreshGrid();
+        return;
+      }
+      catch
       {
         UpdatePaginationButtons(interactable: false);
       }
@@ -397,18 +397,13 @@ namespace Client.Forms
       paginationToolStrip.Visible = canGoBack || canGoNext || _currentPage > 0;
     }
 
-    private void ShowMessage(string fieldName, string message, string details)
-    {
-      var result = MessageBox.Show(
+    private DialogResult ShowMessage(string fieldName, string message, string details) =>
+      MessageBox.Show(
         $"{fieldName}: {message}",
         $"{details}",
         MessageBoxButtons.OK,
         MessageBoxIcon.Error
         );
-
-      if (result == DialogResult.OK || result == DialogResult.Cancel)
-        RefreshGrid();
-    }
 
     #endregion
 
